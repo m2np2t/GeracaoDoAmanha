@@ -5,7 +5,7 @@ import static View.TelaODS.lblTituloOds;
 import java.awt.event.KeyEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import Model.LoginModel;
+import model.LoginModel;
 
 /**
  *

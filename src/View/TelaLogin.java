@@ -5,13 +5,11 @@
  */
 package View;
 
+import static View.TelaPrincipal.lblNome;
+import static View.TelaPrincipal.lblPontuacao;
 import javax.swing.JFrame;
-import Model.LoginModel;
-import static View.TelaPrincipal.*;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import controller.LoginController;
 
 /**
  *
@@ -156,9 +154,9 @@ public class TelaLogin extends javax.swing.JFrame {
         btnLogin.setText("Login");
         btnLogin.setToolTipText("Efetuar login");
         btnLogin.setPreferredSize(new java.awt.Dimension(100, 40));
-        btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnLoginMouseClicked(evt);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
             }
         });
 
@@ -258,28 +256,6 @@ public class TelaLogin extends javax.swing.JFrame {
 	limpar();
     }//GEN-LAST:event_btnCancelarMouseClicked
 
-    private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-        
-	LoginModel login = new LoginModel();
-	try {
-	    if(login.validarLogin(txtUsuario.getText(), txtSenha.getText())){
-		TelaPrincipal cad = new TelaPrincipal();
-		lblNome.setText(login.getNome_logado());
-		lblPontuacao.setText(Integer.toString(login.getPontuacao_logado()));
-		cad.setVisible(true);
-		cad.pack();
-		cad.setLocationRelativeTo(null);
-		cad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.dispose();
-	    }else{
-		JOptionPane.showMessageDialog(null,"Usuário e senha não cadastrados!");
-	    }
-	} catch (SQLException ex) {
-	    Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
-	}
-	
-    }//GEN-LAST:event_btnLoginMouseClicked
-
     private void lblCadastrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCadastrarMouseClicked
         
 	TelaCadastro cad = new TelaCadastro();
@@ -289,6 +265,23 @@ public class TelaLogin extends javax.swing.JFrame {
 	cad.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	this.dispose();
     }//GEN-LAST:event_lblCadastrarMouseClicked
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        LoginController login = new LoginController();
+	boolean logado = login.logar(txtUsuario.getText(), txtSenha.getText());
+	if(logado){
+	    TelaPrincipal principal = new TelaPrincipal();
+	    lblNome.setText(login.getUsuario());
+	    lblPontuacao.setText(Integer.toString(login.getPontuacao()));
+	    principal.setVisible(true);
+	    principal.setLocationRelativeTo(null);
+	    principal.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    this.dispose();
+	}else{
+	    JOptionPane.showMessageDialog(this, "Falha na autenticação. " + login.getMensagem());
+	    limpar();
+	}	
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments

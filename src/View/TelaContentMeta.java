@@ -6,13 +6,12 @@
 package View;
 
 import java.awt.Color;
+import model.MetaModel;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import Model.MetaModel;
 import static View.TelaPrincipal.lblNome;
 import static View.TelaPrincipal.lblPontuacao;
-import java.util.List;
 
 /**
  *
@@ -264,8 +263,8 @@ public class TelaContentMeta extends javax.swing.JFrame {
         // TODO add your handling code here:
 	String usuario = lblNome.getText();
 	String pontuacao = lblPontuacao.getText();
-	int pont = Integer.parseInt(pontuacao);
 	MetaModel meta = new MetaModel();
+	int pont = Integer.parseInt(pontuacao);
 	if(jToggleButtonConc.getText().contains("Concluído")){
 	    int temp = meta.somaPonto(pont, 1, usuario);
 	    lblPontuacao.setText(Integer.toString(temp));
